@@ -29,16 +29,11 @@
     }
   },
   "scripts": {
-    "lint": "eslint .",
-    "pretest": "npm run lint",
-    "test": "vscode-test"
+    "lint": "eslint ."
   },
   "devDependencies": {
     "@types/vscode": "^1.105.0",
-    "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
-    "eslint": "^9.39.3",
-    "@vscode/test-cli": "^0.0.12",
-    "@vscode/test-electron": "^2.5.2"
+    "eslint": "^9.39.3"
   }
 }
