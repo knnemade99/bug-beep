@@ -4,19 +4,27 @@
   "description": "Plays a sound on save when errors, unused variables, or unused imports are detected.",
   "version": "0.0.1",
   "icon": "logo.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/knnemade99/bug-beep.git"
+  },
   "engines": {
     "vscode": "^1.105.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": ["onStartupFinished"],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./extension.js",
   "contributes": {
-    "commands": [{
-      "command": "bug-beep.play",
-      "title": "Bug Beep: Check and Play"
-    }],
+    "commands": [
+      {
+        "command": "bug-beep.play",
+        "title": "Bug Beep: Check and Play"
+      }
+    ],
     "configuration": {
       "title": "Bug Beep",
       "properties": {
