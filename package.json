@@ -1,0 +1,44 @@
+{
+  "name": "bug-beep",
+  "displayName": "Bug Beep",
+  "description": "Plays a sound on save when errors, unused variables, or unused imports are detected.",
+  "version": "0.0.1",
+  "icon": "logo.png",
+  "engines": {
+    "vscode": "^1.105.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [{
+      "command": "bug-beep.play",
+      "title": "Bug Beep: Check and Play"
+    }],
+    "configuration": {
+      "title": "Bug Beep",
+      "properties": {
+        "bugBeep.soundFilePath": {
+          "type": "string",
+          "default": "",
+          "description": "Absolute path to a custom sound file (.wav, .mp3, .aiff, etc.). Leave empty to use the default built-in sound."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.105.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "eslint": "^9.39.3",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}
