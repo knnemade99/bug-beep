@@ -52,7 +52,7 @@ function getDiagnosticsForUri(uri) {
 function hasSoundTrigger(uri) {
   return getDiagnosticsForUri(uri).some(
     (d) =>
-      isUnusedDiagnostic(d) || d.severity === vscode.DiagnosticSeverity.Error,
+      isUnusedDiagnostic(d) || d.severity === vscode.DiagnosticSeverity.Error
   );
 }
 // --- Sound ---
@@ -74,12 +74,12 @@ function getSystemVolume() {
         execSync("osascript -e 'output volume of (get volume settings)'")
           .toString()
           .trim(),
-        10,
+        10
       );
     }
     if (platform === "win32") {
       const raw = execSync(
-        'powershell -Command "(Get-AudioDevice -PlaybackVolume)"',
+        'powershell -Command "(Get-AudioDevice -PlaybackVolume)"'
       )
         .toString()
         .trim();
@@ -87,7 +87,7 @@ function getSystemVolume() {
     }
     // Linux — try pactl
     const raw = execSync(
-      "pactl get-sink-volume @DEFAULT_SINK@ | grep -oP '\\d+%' | head -1",
+      "pactl get-sink-volume @DEFAULT_SINK@ | grep -oP '\\d+%' | head -1"
     )
       .toString()
       .trim();
@@ -111,13 +111,13 @@ function playSound(context) {
     } else if (platform === "win32") {
       const vol = Math.round(ratio * 100) / 100;
       exec(
-        `powershell -Command "Add-Type -AssemblyName PresentationCore; $p = New-Object System.Windows.Media.MediaPlayer; $p.Open([Uri]'${soundPath}'); $p.Volume = ${vol}; $p.Play(); Start-Sleep -Milliseconds 3000"`,
+        `powershell -Command "Add-Type -AssemblyName PresentationCore; $p = New-Object System.Windows.Media.MediaPlayer; $p.Open([Uri]'${soundPath}'); $p.Volume = ${vol}; $p.Play(); Start-Sleep -Milliseconds 3000"`
       ).unref();
     } else {
       // Linux — try paplay with volume (0-65536), fallback to aplay
       const vol = Math.round(ratio * 65536);
       exec(
-        `paplay --volume=${vol} "${soundPath}" 2>/dev/null || aplay "${soundPath}" 2>/dev/null`,
+        `paplay --volume=${vol} "${soundPath}" 2>/dev/null || aplay "${soundPath}" 2>/dev/null`
       ).unref();
     }
   } catch (_) {}
@@ -145,7 +145,7 @@ function activate(context) {
           return;
         }
       }
-    }),
+    })
   );
   context.subscriptions.push(
     vscode.workspace.onDidSaveTextDocument((doc) => {
@@ -155,14 +155,14 @@ function activate(context) {
         if (pendingSaveUri) checkAndMaybePlay(pendingSaveUri);
         pendingTimeout = null;
       }, DIAGNOSTIC_WAIT_MS);
-    }),
+    })
   );
   context.subscriptions.push(
     vscode.commands.registerCommand("bug-beep.play", () => {
       const editor = vscode.window.activeTextEditor;
       if (!editor) return;
       if (hasSoundTrigger(editor.document.uri)) playSound(context);
-    }),
+    })
   );
 }
 function deactivate() {}
