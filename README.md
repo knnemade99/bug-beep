@@ -10,6 +10,7 @@ A VS Code extension that plays a sound **on save** when it detects problems in y
   - **Unused imports** — imported but not referenced
 - Works with diagnostics from your language extensions (ESLint, TypeScript, etc.)
 - Automatically adjusts playback volume based on your system volume to keep it non-intrusive
+- Cross-platform — works on macOS, Windows, and Linux
 
 ## Requirements
 

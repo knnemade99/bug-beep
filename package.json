@@ -3,7 +3,7 @@
   "publisher": "knnemade99",
   "displayName": "Bug Beep",
   "description": "Plays a sound on save when errors, unused variables, or unused imports are detected.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "icon": "logo.png",
   "repository": {
     "type": "git",
