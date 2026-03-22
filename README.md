@@ -64,13 +64,19 @@ Your system volume is never changed.
 
 ## Known Issues
 
-None at this time. If you run into problems, please open an issue in the repository.
+None at this time. If you run into problems, please [open an issue](https://github.com/knnemade99/bug-beep/issues) in the repository.
 
 ## Release Notes
 
+### 0.1.0
+
+- Added cross-platform support for Windows and Linux
+- Added custom sound file setting (`bugBeep.soundFilePath`)
+- Added smart volume scaling based on system volume
+
 ### 0.0.1
 
-Initial release.
+- Initial release (macOS only)
 
 ---
 
