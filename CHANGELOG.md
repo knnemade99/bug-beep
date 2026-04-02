@@ -2,6 +2,13 @@
 
 All notable changes to the "bug-beep" extension will be documented in this file.
 
+## [0.2.0] - 2026-04-02
+
+### Added
+- Inline editor highlights on save: red background for errors, dark yellow for unused imports/variables
+- Highlights auto-clear when editing resumes
+- `bugBeep.soundEnabled` setting to toggle sound playback on/off (highlights remain active)
+
 ## [0.1.0] - 2026-03-19
 
 ### Added
