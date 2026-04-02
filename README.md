@@ -8,6 +8,12 @@ A VS Code extension that plays a sound **on save** when it detects problems in y
   - **Errors** — compilation errors, type errors, syntax errors, etc.
   - **Unused variables** — declared but never used
   - **Unused imports** — imported but not referenced
+- **Inline highlights on save** — problem lines are highlighted directly in the editor:
+  - **Red** background for errors
+  - **Dark yellow** background for unused imports and variables
+  - Highlights automatically clear when you start editing
+- **Toggle sound on/off** — disable the beep while keeping visual highlights via `bugBeep.soundEnabled`
+- **Custom sound file** — replace the default beep with any sound file on your machine via `bugBeep.soundFilePath`
 - Works with diagnostics from your language extensions (ESLint, TypeScript, etc.)
 - Automatically adjusts playback volume based on your system volume to keep it non-intrusive
 - Cross-platform — works on macOS, Windows, and Linux
@@ -22,6 +28,7 @@ A VS Code extension that plays a sound **on save** when it detects problems in y
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
 | `bugBeep.soundFilePath` | `string` | `""` | Absolute path to a custom sound file (`.wav`, `.mp3`, `.aiff`, etc.). Leave empty to use the default built-in sound. |
+| `bugBeep.soundEnabled` | `boolean` | `true` | Enable or disable the beep sound on save. Highlights will still appear when disabled. |
 
 ### Using a Custom Sound
 
@@ -35,7 +42,8 @@ Or add it directly to your `settings.json`:
 
 ```json
 {
-  "bugBeep.soundFilePath": "/Users/you/Downloads/my-sound.mp3"
+  "bugBeep.soundFilePath": "/Users/you/Downloads/my-sound.mp3",
+  "bugBeep.soundEnabled": false
 }
 ```
 
@@ -67,6 +75,12 @@ Your system volume is never changed.
 None at this time. If you run into problems, please [open an issue](https://github.com/knnemade99/bug-beep/issues) in the repository.
 
 ## Release Notes
+
+### 0.2.0
+
+- Added inline editor highlights on save — errors shown in red, unused imports/variables in dark yellow
+- Highlights automatically clear when you start editing
+- Added `bugBeep.soundEnabled` setting to toggle sound on/off (highlights still work when sound is disabled)
 
 ### 0.1.0
 

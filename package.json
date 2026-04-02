@@ -3,7 +3,7 @@
   "publisher": "knnemade99",
   "displayName": "Bug Beep",
   "description": "Plays a sound on save when errors, unused variables, or unused imports are detected.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "icon": "logo.png",
   "repository": {
     "type": "git",
@@ -33,6 +33,11 @@
           "type": "string",
           "default": "",
           "description": "Absolute path to a custom sound file (.wav, .mp3, .aiff, etc.). Leave empty to use the default built-in sound."
+        },
+        "bugBeep.soundEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable the beep sound on save. Highlights will still appear when disabled."
         }
       }
     }

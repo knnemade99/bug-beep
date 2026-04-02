@@ -103,6 +103,10 @@ function getVolumeRatio(systemVol) {
   return 1;
 }
 function playSound(context) {
+  const soundEnabled = vscode.workspace
+    .getConfiguration("bugBeep")
+    .get("soundEnabled", true);
+  if (!soundEnabled) return;
   const soundPath = resolveSoundPath(context);
   const ratio = getVolumeRatio(getSystemVolume());
   try {
@@ -123,12 +127,51 @@ function playSound(context) {
   } catch (_) {}
   vscode.window.showInformationMessage("Please fix the file");
 }
+// --- Highlighting ---
+let errorDecoration;
+let unusedDecoration;
+
+function applyHighlights(uri) {
+  if (!errorDecoration || !unusedDecoration) return;
+  const editor = vscode.window.visibleTextEditors.find(
+    (e) => e.document.uri.toString() === uri.toString()
+  );
+  if (!editor) return;
+  const diags = getDiagnosticsForUri(uri);
+  const errorRanges = [];
+  const unusedRanges = [];
+  for (const d of diags) {
+    if (d.severity === vscode.DiagnosticSeverity.Error) {
+      errorRanges.push(d.range);
+    } else if (isUnusedDiagnostic(d)) {
+      unusedRanges.push(d.range);
+    }
+  }
+  editor.setDecorations(errorDecoration, errorRanges);
+  editor.setDecorations(unusedDecoration, unusedRanges);
+}
+
 // --- Lifecycle ---
 function activate(context) {
+  errorDecoration = vscode.window.createTextEditorDecorationType({
+    backgroundColor: "rgba(255, 0, 0, 0.25)",
+    isWholeLine: true,
+    overviewRulerColor: "rgba(255, 0, 0, 0.7)",
+    overviewRulerLane: vscode.OverviewRulerLane.Center,
+  });
+  unusedDecoration = vscode.window.createTextEditorDecorationType({
+    backgroundColor: "rgba(204, 164, 0, 0.3)",
+    isWholeLine: true,
+    overviewRulerColor: "rgba(204, 164, 0, 0.7)",
+    overviewRulerLane: vscode.OverviewRulerLane.Center,
+  });
+  context.subscriptions.push(errorDecoration, unusedDecoration);
+
   let pendingSaveUri = null;
   let pendingTimeout = null;
   function checkAndMaybePlay(uri) {
     if (!pendingSaveUri || uri.toString() !== pendingSaveUri.toString()) return;
+    applyHighlights(uri);
     if (hasSoundTrigger(uri)) playSound(context);
     pendingSaveUri = null;
     if (pendingTimeout) {
@@ -158,9 +201,21 @@ function activate(context) {
     })
   );
   context.subscriptions.push(
+    vscode.workspace.onDidChangeTextDocument((e) => {
+      const editor = vscode.window.visibleTextEditors.find(
+        (ed) => ed.document.uri.toString() === e.document.uri.toString()
+      );
+      if (editor) {
+        editor.setDecorations(errorDecoration, []);
+        editor.setDecorations(unusedDecoration, []);
+      }
+    })
+  );
+  context.subscriptions.push(
     vscode.commands.registerCommand("bug-beep.play", () => {
       const editor = vscode.window.activeTextEditor;
       if (!editor) return;
+      applyHighlights(editor.document.uri);
       if (hasSoundTrigger(editor.document.uri)) playSound(context);
     })
   );
